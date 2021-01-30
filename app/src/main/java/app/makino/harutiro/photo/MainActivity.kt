@@ -33,12 +33,17 @@ class MainActivity : AppCompatActivity() {
             preaview()
         }
 
-        imageView = findViewById(R.id.imageView)
+        imageView = findViewById(R.id.outView)
 
 
 
         findViewById<Button>(R.id.button2).setOnClickListener {
             takePicuture()
+        }
+
+        findViewById<Button>(R.id.button4).setOnClickListener {
+            val intent = Intent(this,MainActivity2::class.java)
+            startActivity(intent)
         }
 
 
