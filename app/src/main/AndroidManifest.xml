@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.makino.harutiro.photo">
 
+    <!-- パーミッション -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- カメラ関係 -->
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -18,6 +22,7 @@
         <activity android:name=".MainActivity3"></activity>
         <activity android:name=".MainActivity2" />
 
+        <!-- 追加部分 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -27,6 +32,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
         </provider>
+        <!-- ここまで -->
 
         <activity android:name=".MainActivity">
             <intent-filter>

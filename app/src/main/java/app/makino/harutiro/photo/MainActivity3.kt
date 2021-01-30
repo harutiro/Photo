@@ -1,11 +1,14 @@
 package app.makino.harutiro.photo
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -14,6 +17,8 @@ import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -24,8 +29,10 @@ class MainActivity3 : AppCompatActivity() {
 
     val REQUEST_PREVIEW = 1
     val REQUEST_PICTURE = 2
+    val REQUEST_EXTERNAL_STORAGE = 3
 
     var outImage:ImageView? = null
+    var inButton1:Button? = null
 
     lateinit var currentPhotoUri: Uri
 
@@ -34,6 +41,7 @@ class MainActivity3 : AppCompatActivity() {
         setContentView(R.layout.activity_main3)
 
         outImage = findViewById(R.id.outView)
+        inButton1 = findViewById(R.id.inButton1)
 
 
         //インテント開始
@@ -112,6 +120,36 @@ class MainActivity3 : AppCompatActivity() {
 //            startActivityForResult(intent, REQUEST_PICTURE)
 
 
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            storagePermission()
+        }
+    }
+
+    private fun storagePermission() {
+        val permission = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    REQUEST_EXTERNAL_STORAGE
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQUEST_EXTERNAL_STORAGE -> {
+                inButton1?.isEnabled = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            }
         }
     }
 
