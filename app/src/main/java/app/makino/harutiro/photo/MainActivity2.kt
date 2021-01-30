@@ -46,14 +46,17 @@ class MainActivity2 : AppCompatActivity() {
         // 保存先のフォルダー
         val cFolder: File? = context.getExternalFilesDir(Environment.DIRECTORY_DCIM)
         Log.d("log", "path: " + java.lang.String.valueOf(cFolder))
-        val fileDate: String = SimpleDateFormat(
-                "ddHHmmss", Locale.US).format(Date())
+
         // ファイル名
-        val fileName = String.format("CameraIntent_%s.jpg", fileDate)
-        val cameraFile = File(cFolder, fileName)
-        cameraUri = FileProvider.getUriForFile(
-                this, context.packageName.toString() + ".fileprovider",
-                cameraFile)
+        val fileDate: String = SimpleDateFormat("ddHHmmss", Locale.US).format(Date())
+        val fileName: String = String.format("CameraIntent_%s.jpg", fileDate)
+
+        //uri
+        val cameraFile: File = File(cFolder, fileName)
+
+        cameraUri = FileProvider.getUriForFile(this, context.packageName.toString() + ".fileprovider", cameraFile)
+
+
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri)
         startActivityForResult(intent, RESULT_CAMERA)
