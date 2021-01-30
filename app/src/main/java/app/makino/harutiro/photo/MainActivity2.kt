@@ -28,6 +28,8 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("debug", "onCreate()")
         setContentView(R.layout.activity_main2)
+
+
         imageView = findViewById(R.id.outView)
         val cameraButton = findViewById<Button>(R.id.inButton)
         cameraButton.setOnClickListener {
